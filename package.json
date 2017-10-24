@@ -1,0 +1,32 @@
+{
+  "name": "copy-push",
+  "version": "1.0.0",
+  "description": "copy & push: pull -> copy -> add -> commit -> push",
+  "main": "src/copy-push.js",
+  "bin": "bin/copy-push.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ufologist/copy-push.git"
+  },
+  "keywords": [
+    "copy",
+    "git",
+    "commit",
+    "push"
+  ],
+  "author": "ufologist",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ufologist/copy-push/issues"
+  },
+  "homepage": "https://github.com/ufologist/copy-push#readme",
+  "dependencies": {
+    "copy": "^0.3.1",
+    "ora": "^1.3.0",
+    "simple-git": "^1.80.1",
+    "yargs": "^9.0.1"
+  }
+}
