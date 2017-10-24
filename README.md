@@ -79,4 +79,4 @@
 
 ## 示例
 
-[截图]
+![copy-push-snapshot](https://raw.githubusercontent.com/ufologist/copy-push/master/test/copy-push-snapshot.png)
