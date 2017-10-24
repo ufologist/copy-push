@@ -28,13 +28,32 @@
   cd fe-project
   copy-push --destRoot=../backend-project --destDir=dir
   ```
+
+  也可以局部安装, 配置在 `npm scripts` 中来使用
+
+  ```
+  cd fe-project
+  npm install copy-push --save-dev
+  ```
+
+  ```
+  "scripts": {
+      "copy-push": "copy-push --destRoot=../backend-project --destDir=dir"
+  }
+  ```
+
+  ```
+  npm run copy-push
+  ```
 * 做为模块使用
 
   ```
-  npm install copy-push
+  npm install copy-push --save-dev
+  cd fe-project
   ```
 
   ```javascript
+  // fe-project/copy-push.js
   var copyPush = require('copy-push');
 
   var destRoot = '../backend-project';
