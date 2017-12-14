@@ -1,4 +1,5 @@
 var path = require('path');
+var fs = require('fs');
 
 var ora = require('ora');
 var copy = require('copy');
@@ -26,16 +27,32 @@ function copyPush(destRoot, options) {
     var startTime = new Date();
     var addFiles = options.destDir + '/*';
 
+    var stashInfo = 'stash';
+    var checkoutInfo = 'checkout ' + options.branch;
     var pullInfo = 'pull ' + path.resolve(destRoot) + ' ' + options.remote + '/' + options.branch;
     var copyInfo = 'copy ' + options.src + ' -> ' + path.resolve(destRoot, options.destDir);
     var addInfo = 'add ' + addFiles;
     var commitInfo = 'commit ' + options.message;
     var pushInfo = 'push ' + path.resolve(destRoot) + ' ' + options.remote + '/' + options.branch;
 
-    // pull
-    var spinner = ora(pullInfo).start();
-    var git = simpleGit(destRoot);
-    return git.pull(options.remote, options.branch)
+    var git;
+    if (fs.existsSync(destRoot)) {
+        git = simpleGit(destRoot);
+    } else {
+        throw new Error(path.resolve(destRoot) + ' not exist.');
+    }
+
+    // stash
+    var spinner = ora(stashInfo).start();
+    return git.stash()
+              .then(() => spinner.succeed(stashInfo))
+              // checkout
+              .then(() => spinner = ora(checkoutInfo).start())
+              .then(() => git.checkout(options.branch))
+              .then(() => spinner.succeed(checkoutInfo))
+              // pull
+              .then(() => spinner = ora(pullInfo).start())
+              .then(() => git.pull(options.remote, options.branch))
               .then(() => spinner.succeed(pullInfo))
               // copy
               .then(() => spinner = ora(copyInfo).start())
