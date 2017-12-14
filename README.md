@@ -21,6 +21,8 @@
 
 ## 使用方法
 
+需要先安装好 [Git](https://git-scm.com/downloads)
+
 * 全局安装使用
 
   ```
