@@ -29,11 +29,11 @@ function copyPush(destRoot, options) {
 
     var stashInfo = 'stash';
     var checkoutInfo = 'checkout ' + options.branch;
-    var pullInfo = 'pull ' + path.resolve(destRoot) + ' ' + options.remote + '/' + options.branch;
+    var pullInfo = 'pull ' + options.remote + '/' + options.branch;
     var copyInfo = 'copy ' + options.src + ' -> ' + path.resolve(destRoot, options.destDir);
     var addInfo = 'add ' + addFiles;
     var commitInfo = 'commit ' + options.message;
-    var pushInfo = 'push ' + path.resolve(destRoot) + ' ' + options.remote + '/' + options.branch;
+    var pushInfo = 'push ' + options.remote + '/' + options.branch;
 
     var git;
     if (fs.existsSync(destRoot)) {
@@ -42,6 +42,7 @@ function copyPush(destRoot, options) {
         throw new Error(path.resolve(destRoot) + ' not exist.');
     }
 
+    console.log('destRoot: ' + path.resolve(destRoot));
     // stash
     var spinner = ora(stashInfo).start();
     return git.stash()
@@ -61,7 +62,7 @@ function copyPush(destRoot, options) {
                       copy(options.src, path.resolve(destRoot, options.destDir), function(error, files) {
                           if (error) throw error;
 
-                          spinner.succeed('copy ' + files.length + ' files');
+                          spinner.succeed(copyInfo + ' ' + files.length + ' files');
                           resolve();
                       });
                   });
