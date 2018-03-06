@@ -47,14 +47,14 @@ function copyPush(destRoot, options) {
     var spinner = ora(stashInfo).start();
     return git.stash()
               .then(() => spinner.succeed(stashInfo))
-              // checkout
-              .then(() => spinner = ora(checkoutInfo).start())
-              .then(() => git.checkout(options.branch))
-              .then(() => spinner.succeed(checkoutInfo))
               // pull
               .then(() => spinner = ora(pullInfo).start())
               .then(() => git.pull(options.remote, options.branch))
               .then(() => spinner.succeed(pullInfo))
+              // checkout
+              .then(() => spinner = ora(checkoutInfo).start())
+              .then(() => git.checkout(options.branch))
+              .then(() => spinner.succeed(checkoutInfo))
               // copy
               .then(() => spinner = ora(copyInfo).start())
               .then(() => {
