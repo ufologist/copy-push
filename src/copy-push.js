@@ -25,9 +25,20 @@ function copyPush(destRoot, options) {
     console.log('-----------------');
 
     var startTime = new Date();
+
+    if (fs.existsSync(destRoot)) {
+        return push(destRoot, options, startTime);
+    } else if (options.repoUrl) {
+        return clone(options.repoUrl, destRoot).then(() => push(destRoot, options, startTime));
+    } else {
+        throw new Error(path.resolve(destRoot) + ' not exist.');
+    }
+}
+
+function push(destRoot, options, startTime) {
     var addFiles = options.destDir + '/*';
 
-    var stashInfo = 'stash';
+    var stashInfo = 'stash ' + path.resolve(destRoot);
     var checkoutInfo = 'checkout ' + options.branch;
     var pullInfo = 'pull ' + options.remote + '/' + options.branch;
     var copyInfo = 'copy ' + options.src + ' -> ' + path.resolve(destRoot, options.destDir);
@@ -35,16 +46,9 @@ function copyPush(destRoot, options) {
     var commitInfo = 'commit ' + options.message;
     var pushInfo = 'push ' + options.remote + '/' + options.branch;
 
-    var git;
-    if (fs.existsSync(destRoot)) {
-        git = simpleGit(destRoot);
-    } else {
-        throw new Error(path.resolve(destRoot) + ' not exist.');
-    }
-
-    console.log('destRoot: ' + path.resolve(destRoot));
-    // stash
     var spinner = ora(stashInfo).start();
+
+    var git = simpleGit(destRoot);
     return git.stash()
               .then(() => spinner.succeed(stashInfo))
               // pull
@@ -84,6 +88,20 @@ function copyPush(destRoot, options) {
                   var cost = endTime.getTime() - startTime.getTime();
                   return spinner.succeed('finish ' + endTime.toLocaleTimeString() + ' cost: ' + cost + 'ms');
               })
+              .catch((error) => {
+                  spinner.fail('fail :(');
+                  console.error(error);
+              });
+}
+
+function clone(repoUrl, destRoot) {
+    var cloneInfo = 'clone ' + repoUrl + ' -> ' + path.resolve(destRoot);
+
+    var spinner = ora(cloneInfo).start();
+
+    var git = simpleGit();
+    return git.clone(repoUrl, destRoot)
+              .then(() => spinner.succeed('cloned ' + path.resolve(destRoot)))
               .catch((error) => {
                   spinner.fail('fail :(');
                   console.error(error);

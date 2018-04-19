@@ -40,7 +40,7 @@
 
   ```
   "scripts": {
-      "copy-push": "copy-push --destRoot=../backend-project --destDir=dir"
+      "copy-push": "copy-push --repoUrl=http://gitlab.com/xxx/backend-project.git --destRoot=../backend-project --destDir=dir"
   }
   ```
 
@@ -58,10 +58,12 @@
   // fe-project/copy-push.js
   var copyPush = require('copy-push');
 
+  var repoUrl = 'http://gitlab.com/xxx/backend-project.git';
   var destRoot = '../backend-project';
   var destDir = 'dir';
 
   copyPush(destRoot, { // 详见参数说明
+      repoUrl: repoUrl,
       destDir: destDir
   });
   ```
@@ -72,12 +74,17 @@
 
 | 参数      | 说明                | 默认值 | 是否必选 |
 |-----------|--------------------|--------|------|
-| src       | 需要复制的文件(glob)| ./dist/**/*.html |       |
+| repoUrl  | 远程仓库的 URL       |        |      |
 | destRoot  | 复制文件到哪个项目(git项目的根目录)       |        |  是    |
+| src       | 需要复制的文件(glob)| ./dist/**/*.html |       |
 | destDir   | 复制文件到哪个目录(相对于 destRoot 目录)|  src/main/webapp/views    | |
 | remote    | 远程仓库            |  origin    ||
 | branch    | 分支名              |  master     ||
 | message   | 提交信息            | sync [./dist/**/*.html] ||
+
+## 注意事项
+
+* 必须设置 git 免密码 pull & push(SSH key或者配置用户名密码的方法)
 
 ## 示例
 
