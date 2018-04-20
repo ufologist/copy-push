@@ -24,7 +24,7 @@ var argv = yargs.usage('copy & push@' + pkg.version + '\npull -> copy -> add -> 
     describe: '提交信息',
     default: defaults.message
 }).option('repoUrl', {
-    describe: 'git 远程仓库的 URL'
+    describe: '远程仓库的 URL'
 }).demandOption(['destRoot']).argv;
 
 copyPush(argv.destRoot, argv);

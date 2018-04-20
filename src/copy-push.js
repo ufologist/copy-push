@@ -8,17 +8,19 @@ var simpleGit = require('simple-git/promise');
 var defauls = require('./defaults.js');
 
 /**
- * pull -> copy -> add -> commit -> push
+ * 一步完成代码的拉取和提交
  * 
- * @param {string} destRoot 
- * @param {object} options
+ * clone -> pull -> copy -> commit -> push
+ * 
+ * @param {string} destRoot 本地仓库文件夹路径
+ * @param {object} options 配置项
  * @returns {Promise}
  */
 function copyPush(destRoot, options) {
     options = Object.assign({}, defauls, options);
 
-    console.log('copy & push');
-    console.log('pull -> copy -> add -> commit -> push');
+    console.log('clone & copy & push');
+    console.log('clone -> pull -> copy -> commit -> push');
     console.log('----输入的参数----');
     options.destRoot = destRoot;
     console.log(JSON.stringify(options, null, 4));
@@ -35,6 +37,13 @@ function copyPush(destRoot, options) {
     }
 }
 
+/**
+ * 提交代码
+ * 
+ * @param {string} destRoot 本地仓库文件夹路径
+ * @param {object} options 配置项
+ * @param {Date} startTime 执行开始时间
+ */
 function push(destRoot, options, startTime) {
     var addFiles = options.destDir + '/*';
 
@@ -91,9 +100,16 @@ function push(destRoot, options, startTime) {
               .catch((error) => {
                   spinner.fail('fail :(');
                   console.error(error);
+                  process.exit(1);
               });
 }
 
+/**
+ * 拉取仓库代码
+ * 
+ * @param {string} repoUrl 远程仓库的 URL
+ * @param {string} destRoot 本地文件夹路径
+ */
 function clone(repoUrl, destRoot) {
     var cloneInfo = 'clone ' + repoUrl + ' -> ' + path.resolve(destRoot);
 
@@ -103,8 +119,9 @@ function clone(repoUrl, destRoot) {
     return git.clone(repoUrl, destRoot)
               .then(() => spinner.succeed('cloned ' + path.resolve(destRoot)))
               .catch((error) => {
-                  spinner.fail('fail :(');
-                  console.error(error);
+                   spinner.fail('fail :(');
+                   console.error(error);
+                   process.exit(1);
               });
 }
 
