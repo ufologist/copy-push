@@ -84,7 +84,8 @@
 
 ## 注意事项
 
-* 必须设置 git 免密码 pull & push(SSH key或者配置用户名密码的方法)
+* 必须设置 git 可以免密码 pull & push(配置 SSH key或者配置用户名密码)
+* 因此 `repoUrl` 参考推荐使用 `SSH` 的 URL
 
 ## 示例
 
