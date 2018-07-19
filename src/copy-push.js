@@ -48,6 +48,7 @@ function push(destRoot, options, startTime) {
     var addFiles = options.destDir + '/*';
 
     var stashInfo = 'stash ' + path.resolve(destRoot);
+    var fetchInfo = 'fetch ' + options.remote + '/' +  options.branch;
     var checkoutInfo = 'checkout ' + options.branch;
     var pullInfo = 'pull ' + options.remote + '/' + options.branch;
     var copyInfo = 'copy ' + options.src + ' -> ' + path.resolve(destRoot, options.destDir);
@@ -60,14 +61,18 @@ function push(destRoot, options, startTime) {
     var git = simpleGit(destRoot);
     return git.stash()
               .then(() => spinner.succeed(stashInfo))
-              // pull
-              .then(() => spinner = ora(pullInfo).start())
-              .then(() => git.pull(options.remote, options.branch))
-              .then(() => spinner.succeed(pullInfo))
+              // fetch
+              .then(() => spinner = ora(fetchInfo).start())
+              .then(() => git.fetch(options.remote, options.branch))
+              .then(() => spinner.succeed(fetchInfo))
               // checkout
               .then(() => spinner = ora(checkoutInfo).start())
               .then(() => git.checkout(options.branch))
               .then(() => spinner.succeed(checkoutInfo))
+              // pull
+              .then(() => spinner = ora(pullInfo).start())
+              .then(() => git.pull(options.remote, options.branch))
+              .then(() => spinner.succeed(pullInfo))
               // copy
               .then(() => spinner = ora(copyInfo).start())
               .then(() => {

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+* v1.1.2 2018-7-19
+
+  * [fix] 修复本地分支与要提交到的分支有冲突, 造成 push 失败的问题
+
+    优化提交的流程为: `fetch -> checkout -> pull -> copy -> add -> commit -> push`
+
 * v1.1.1 2018-4-20
 
   * [fix] 修复出错后没有退出进程的问题
