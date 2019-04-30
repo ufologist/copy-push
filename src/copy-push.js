@@ -65,9 +65,13 @@ function push(destRoot, options, startTime) {
               .then(() => spinner = ora(fetchInfo).start())
               // 为了解决 fetch 之后, 虽然有了远端的分支, 但 checkout 不了分支的问题
               // error: pathspec 'branch-name' did not match any file(s) known to git.
+              //
               // https://stackoverflow.com/questions/1783405/how-do-i-check-out-a-remote-git-branch/19442557#19442557
               // This will fetch the remote branch and create a new local branch (if not exists already) with name local_branch_name and track the remote one in it.
-              .then(() => git.fetch([options.remote, options.branch + ':' + options.branch]))
+              //
+              // https://stackoverflow.com/questions/29028696/why-git-fetch-origin-branchbranch-works-only-on-a-non-current-branch/32561463#32561463
+              // fatal: Refusing to fetch into current branch refs/heads/branch-name of non-bare repository
+              .then(() => git.fetch(['-u', options.remote, options.branch + ':' + options.branch]))
               .then(() => spinner.succeed(fetchInfo))
               // checkout
               .then(() => spinner = ora(checkoutInfo).start())
