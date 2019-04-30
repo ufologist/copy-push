@@ -1,8 +1,10 @@
-var copyPush = require('copy-push');
+var copyPush = require('../src/copy-push.js');
 
-var destRoot = '../backend-project';
+var destRoot = './repo';
 var destDir = 'dir';
 
 copyPush(destRoot, {
+    repoUrl: 'http://git.domain.com/group/repo.git',
+    branch: 'dev/test',
     destDir: destDir
 });
