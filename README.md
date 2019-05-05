@@ -19,6 +19,10 @@
 
 对于重复的工作, 很懒的我们肯定是需要自动化工具代劳之.
 
+## 示例
+
+![copy-push-snapshot](https://raw.githubusercontent.com/ufologist/copy-push/master/test/copy-push-snapshot.png)
+
 ## 使用方法
 
 需要先安装好 [Git](https://git-scm.com/downloads)
@@ -86,7 +90,3 @@
 
 * 必须设置 git 可以免密码 pull & push(配置 SSH key或者配置用户名密码)
 * 因此 `repoUrl` 参考推荐使用 `SSH` 的 URL
-
-## 示例
-
-![copy-push-snapshot](https://raw.githubusercontent.com/ufologist/copy-push/master/test/copy-push-snapshot.png)
