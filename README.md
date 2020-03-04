@@ -84,7 +84,7 @@
 | destDir   | 复制文件到哪个目录(相对于 destRoot 目录)|  src/main/webapp/views    | |
 | remote    | 远程仓库            |  origin    ||
 | branch    | 分支名              |  master     ||
-| message   | 提交信息            | sync [./dist/**/*.html] ||
+| message   | 提交信息            | sync [./dist/**/*.html] ${远端项目名}:${当前分支名} ${最近一次的提交日志} ||
 
 ## 注意事项
 
