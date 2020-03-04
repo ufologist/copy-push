@@ -1,6 +1,6 @@
 {
   "name": "copy-push",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "description": "clone & copy & push: clone -> pull -> copy -> add -> commit -> push",
   "main": "src/copy-push.js",
   "bin": "bin/copy-push.js",
