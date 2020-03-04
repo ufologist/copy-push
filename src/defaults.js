@@ -8,7 +8,7 @@ var childProcess = require('child_process');
 function getLatestGitLog() {
     var log = '';
     try {
-        log = childProcess.execSync('git log -1 --pretty=format:"%h %cn %cd" --date=format:"%Y-%m-%d %H:%M:%S"').toString();
+        log = childProcess.execSync('git log -1 --pretty=format:"%h %cn %cd" --date=iso').toString();
         // 去除最后的换行字符
         log = log.substring(0, log.length - 1);
     } catch (error) {
@@ -26,7 +26,7 @@ function getRemoteRepoName() {
     var remoteRepoName = '';
     try {
         // 获取 origin 远端的URL, 例如 https://github.com/ufologist/copy-push.git
-        remoteRepoName = childProcess.execSync('git remote get-url origin --push').toString();
+        remoteRepoName = childProcess.execSync('git config --get remote.origin.url').toString();
         remoteRepoName = remoteRepoName.substring(remoteRepoName.lastIndexOf('/') + 1, remoteRepoName.length - 1);
     } catch (error) {
         console.warn('getRemoteRepoName error', error.message);
@@ -51,6 +51,7 @@ function getBranchName() {
 }
 
 var src = './dist/**/*.html';
+// 例如: 'sync [./dist/**/*.html] copy-push.git:dev cecb481 who 2020-03-04 14:58:08 +080;
 var message = 'sync [' + src + '] ' + getRemoteRepoName() + ':' + getBranchName() + ' ' + getLatestGitLog();
 
 module.exports = {

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+* v1.2.1 2020-3-4
+
+  * fix: 构建机上 `git remote get-url origin --push` 报错: `error: Unknown subcommand: get-url`
+    * 因此修改为 `git config --get remote.origin.url`
+    * [In git v2.7.0+, a subcommand get-url was introduced to git-remote command.](https://stackoverflow.com/questions/15715825/how-do-you-get-the-git-repositorys-name-in-some-git-repository)
+  * fix: 构建机上 `git log -1 --pretty=format:"%h %cn %cd" --date=format:"%Y-%m-%d %H:%M:%S"` 报错: `fatal: unknown date format format:%Y-%m-%d %H:%M:%S`
+    * 因此修改为 `git log -1 --pretty=format:"%h %cn %cd" --date=iso`
+
 * v1.2.0 2020-3-4
 
   * feat: 在 copy-push 默认的提交信息中增加远端项目名, 当前分支名和最近一次的提交日志
